@@ -56,8 +56,11 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {annonces.map((annonce) => (
               <div key={annonce.id} className="bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden">
-                <div className="bg-gray-200 h-48 flex items-center justify-center text-4xl">🏠</div>
-                <div className="p-4">
+                {annonce.image_url ? (
+                  <img src={annonce.image_url} alt={annonce.titre} className="w-full h-48 object-cover" />
+                ) : (
+                  <div className="bg-gray-200 h-48 flex items-center justify-center text-4xl">🏠</div>
+                )}                <div className="p-4">
                   <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">{annonce.type_logement}</span>
                   <h3 className="font-bold text-lg mt-2">{annonce.titre}</h3>
                   <p className="text-gray-500 text-sm">📍 {annonce.quartier}, Ziguinchor</p>

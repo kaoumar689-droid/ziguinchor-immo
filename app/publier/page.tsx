@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation'
 export default function Publier() {
     const router = useRouter()
     const [loading, setLoading] = useState(false)
+    const [image, setImage] = useState<File | null>(null)
+    const [preview, setPreview] = useState<string | null>(null)
     const [form, setForm] = useState({
         titre: '',
         description: '',
@@ -19,12 +21,36 @@ export default function Publier() {
         setForm({ ...form, [e.target.name]: e.target.value })
     }
 
+    const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0]
+        if (file) {
+            setImage(file)
+            setPreview(URL.createObjectURL(file))
+        }
+    }
+
     const handleSubmit = async () => {
         setLoading(true)
+        let image_url = null
+
+        if (image) {
+            const fileName = `${Date.now()}_${image.name}`
+            const { error: uploadError } = await supabase.storage
+                .from('images')
+                .upload(fileName, image)
+
+            if (!uploadError) {
+                const { data } = supabase.storage.from('images').getPublicUrl(fileName)
+                image_url = data.publicUrl
+            }
+        }
+
         const { error } = await supabase.from('annonces').insert([{
             ...form,
-            prix: parseInt(form.prix)
+            prix: parseInt(form.prix),
+            image_url
         }])
+
         setLoading(false)
         if (!error) {
             alert('Annonce publiée avec succès !')
@@ -61,8 +87,23 @@ export default function Publier() {
 
                     <textarea name="description" placeholder="Description du logement..." onChange={handleChange} rows={4} className="border rounded-xl px-4 py-3 outline-none focus:border-green-500" />
 
+                    {/* Upload photo */}
+                    <div className="border-2 border-dashed border-gray-300 rounded-xl p-4 text-center">
+                        <label className="cursor-pointer">
+                            {preview ? (
+                                <img src={preview} alt="preview" className="w-full h-48 object-cover rounded-xl" />
+                            ) : (
+                                <div className="text-gray-400">
+                                    <p className="text-4xl">📷</p>
+                                    <p>Cliquez pour ajouter une photo</p>
+                                </div>
+                            )}
+                            <input type="file" accept="image/*" onChange={handleImage} className="hidden" />
+                        </label>
+                    </div>
+
                     <button onClick={handleSubmit} disabled={loading} className="bg-green-600 text-white py-3 rounded-xl hover:bg-green-700 transition font-bold">
-                        {loading ? 'Publication...' : 'Publier l\'annonce'}
+                        {loading ? 'Publication...' : "Publier l'annonce"}
                     </button>
                 </div>
             </div>
