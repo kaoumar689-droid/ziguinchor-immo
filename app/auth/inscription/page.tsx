@@ -1,4 +1,3 @@
-cat > 'app/auth/inscription/page.tsx' << 'EOF'
 'use client'
 import { useState } from 'react'
 import { supabase } from '../../../lib/supabase'
