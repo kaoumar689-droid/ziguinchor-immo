@@ -48,9 +48,9 @@ export default function Publier() {
         const { error } = await supabase.from('annonces').insert([{
             ...form,
             prix: parseInt(form.prix),
-            image_url
+            image_url,
+            user_id: (await supabase.auth.getUser()).data.user?.id
         }])
-
         setLoading(false)
         if (!error) {
             alert('Annonce publiée avec succès !')
@@ -109,4 +109,4 @@ export default function Publier() {
             </div>
         </main>
     )
-}
+} 1.
