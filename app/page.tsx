@@ -23,7 +23,7 @@ export default function Home() {
   const [recherche, setRecherche] = useState('')
   const [typeFiltre, setTypeFiltre] = useState('Tous')
   const [quartierFiltre, setQuartierFiltre] = useState('Tous')
-
+  const [userId, setUserId] = useState<string | null>(null)
   useEffect(() => {
     async function fetchAnnonces() {
       const { data, error } = await supabase
@@ -34,6 +34,9 @@ export default function Home() {
       setLoading(false)
     }
     fetchAnnonces()
+    supabase.auth.getUser().then(({ data }) => {
+  setUserId(data.user?.id || null)
+})
   }, [])
 
   const annoncesFiltrees = annonces.filter(a => {
@@ -52,6 +55,11 @@ export default function Home() {
     setTypeFiltre('Tous')
     setQuartierFiltre('Tous')
   }
+  async function supprimerAnnonce(id: string) {
+  if (!confirm('Supprimer cette annonce ?')) return
+  const { error } = await supabase.from('annonces').delete().eq('id', id)
+  if (!error) setAnnonces(annonces.filter(a => a.id !== id))
+}
 
   const filtresActifs = recherche !== '' || typeFiltre !== 'Tous' || quartierFiltre !== 'Tous'
 
@@ -286,6 +294,14 @@ export default function Home() {
                   >
                     📱 Contacter sur WhatsApp
                   </a>
+                  {userId === annonce.user_id && (
+                    <button
+                      onClick={e => { e.stopPropagation(); supprimerAnnonce(annonce.id) }}
+                      className="block w-full bg-red-500 text-white py-2 rounded-xl hover:bg-red-600 transition text-sm font-medium mt-2"
+                    >
+                      🗑️ Supprimer mon annonce
+                    </button>
+    )}
                 </div>
               </div>
             ))}
