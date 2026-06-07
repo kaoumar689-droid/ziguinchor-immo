@@ -36,8 +36,8 @@ const FEATURE_ICONS: Record<string, React.ReactNode> = {
 
 export default function PropertyCard({ property }: { property: Property }) {
   const imageUrl = property.images?.[0] ?? null
-  const waLink = property.telephone
-    ? `https://wa.me/221${property.telephone.replace(/\D/g,'')}?text=${encodeURIComponent(`Bonjour, je suis intéressé(e) par "${property.titre}" à ${property.quartier}`)}`
+  const waLink = property.téléphone
+    ? `https://wa.me/221${property.téléphone.replace(/\D/g,'')}?text=${encodeURIComponent(`Bonjour, je suis intéressé(e) par "${property.titre}" à ${property.Quartier}`)}`
     : null
 
   return (
@@ -51,14 +51,14 @@ export default function PropertyCard({ property }: { property: Property }) {
             Pas de photo
           </div>
         )}
-        <span style={{position:'absolute',top:'10px',left:'10px',background:TYPE_COLORS[property.type],color:'#fff',fontSize:'11px',fontWeight:500,padding:'3px 10px',borderRadius:'6px'}}>
-          {TYPE_LABELS[property.type]}
+        <span style={{position:'absolute',top:'10px',left:'10px',background:TYPE_COLORS[property.type_logement],color:'#fff',fontSize:'11px',fontWeight:500,padding:'3px 10px',borderRadius:'6px'}}>
+          {TYPE_LABELS[property.type_logement]}
         </span>
       </div>
 
       <div style={{padding:'14px',display:'flex',flexDirection:'column',gap:'6px',flex:1}}>
         <div style={{fontFamily:'var(--font-playfair)',fontSize:'18px',fontWeight:700,color:'var(--color-marron)'}}>
-          {property.prix.toLocaleString('fr-FR')}
+          {property.Prix.toLocaleString('fr-FR')}
           <span style={{fontFamily:'var(--font-dm)',fontSize:'12px',fontWeight:400,color:'var(--color-marron-muted)',marginLeft:'4px'}}>FCFA/mois</span>
         </div>
 
@@ -68,7 +68,7 @@ export default function PropertyCard({ property }: { property: Property }) {
 
         <div style={{display:'flex',alignItems:'center',gap:'4px',fontSize:'12px',color:'var(--color-marron-muted)'}}>
           <MapPin size={12} color="var(--color-terracotta)" />
-          {property.quartier}
+          {property.Quartier}
         </div>
 
         <div style={{display:'flex',gap:'10px',fontSize:'11px',color:'var(--color-marron-doux)',borderTop:'1px solid var(--color-creme-bord)',paddingTop:'10px',marginTop:'4px',flexWrap:'wrap'}}>

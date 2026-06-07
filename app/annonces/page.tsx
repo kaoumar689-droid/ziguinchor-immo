@@ -9,16 +9,27 @@ const QUARTIERS = [
 ]
 
 async function getProperties(type?: string, quartier?: string, q?: string) {
+    const { createClient } = await import('@supabase/supabase-js')
     const supabase = createClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     )
-    let query = supabase.from('properties').select('*').order('created_at', { ascending: false })
-    if (type) query = query.eq('type', type)
-    if (quartier) query = query.eq('quartier', quartier)
+    let query = supabase.from('annonces').select('*').order('créé_at', { ascending: false })
+    if (type) query = query.ilike('type_logement', type)
+    if (quartier) query = query.eq('Quartier', quartier)
     if (q) query = query.ilike('titre', `%${q}%`)
     const { data } = await query
-    return data ?? []
+
+    return (data ?? []).map((a: any) => ({
+        id: a.id,
+        titre: a.titre,
+        prix: a.Prix,
+        type: a.type_logement?.toLowerCase(),
+        quartier: a.Quartier,
+        telephone: a.téléphone,
+        images: a.image_url ? [a.image_url] : [],
+        chambres: 1,
+    }))
 }
 
 export default async function AnnoncesPage({
