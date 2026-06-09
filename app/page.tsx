@@ -3,6 +3,7 @@ import { MapPin } from 'lucide-react'
 import PropertyCard from '@/components/PropertyCard'
 import QuartiersGrid from '@/components/QuartiersGrid'
 import { supabase } from '@/lib/supabase'
+export const dynamic = 'force-dynamic'
 
 async function getData() {
   const { data, count } = await supabase
