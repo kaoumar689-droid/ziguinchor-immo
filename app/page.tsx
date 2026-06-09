@@ -14,10 +14,10 @@ async function getData() {
   const properties = (data ?? []).map((a: any) => ({
     id: a.id,
     titre: a.titre,
-    prix: a.Prix,
+    prix: a.prix,
     type: a.type_logement?.toLowerCase(),
-    quartier: a.Quartier,
-    telephone: a.téléphone,
+    quartier: a.quartier,
+    telephone: a.telephone,
     images: a.image_url ? [a.image_url] : [],
     chambres: 1,
   }))
