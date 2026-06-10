@@ -105,7 +105,7 @@ export default async function HomePage() {
       <QuartiersGrid />
 
       <section style={{ maxWidth: '1152px', margin: '0 auto', padding: '0 24px 80px' }}>
-        <div style={{ position: 'relative', background: 'var(--color-vert)', borderRadius: '16px', padding: '44px 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '24px', overflow: 'hidden' }}>
+        <div style={{ position: 'relative', background: 'var(--color-vert)', borderRadius: '16px', padding: '44px 40px', display: 'flex', flexDirection: 'column', gap: '24px', overflow: 'hidden' }}>
           <div style={{ position: 'absolute', right: '-20px', bottom: '-30px', width: '200px', height: '200px', borderRadius: '50%', background: 'rgba(255,255,255,0.05)' }} />
           <div style={{ position: 'relative', zIndex: 1 }}>
             <h2 style={{ fontFamily: 'var(--font-playfair)', fontSize: '24px', fontWeight: 700, color: 'var(--color-creme)', marginBottom: '8px' }}>Vous louez un logement ?</h2>
