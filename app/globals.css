@@ -32,3 +32,13 @@ body {
     color: var(--color-foreground);
     font-family: var(--font-dm);
 }
+
+@media (max-width: 768px) {
+    .hidden-mobile {
+        display: none !important;
+    }
+
+    .show-mobile {
+        display: flex !important;
+    }
+}
