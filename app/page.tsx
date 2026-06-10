@@ -89,7 +89,7 @@ export default async function HomePage() {
           <Link href="/annonces" style={{ fontSize: '13px', color: 'var(--color-vert)', fontWeight: 500, textDecoration: 'none' }}>Voir tout →</Link>
         </div>
         {properties.length > 0 ? (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '20px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
             {properties.map((p: any) => <PropertyCard key={p.id} property={p} />)}
           </div>
         ) : (
