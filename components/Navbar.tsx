@@ -1,11 +1,17 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Menu, X, MapPin } from 'lucide-react'
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
+  const [user, setUser] = useState<any>(null)
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => setUser(session?.user ?? null))
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, s) => setUser(s?.user ?? null))
+    return () => subscription.unsubscribe()
+  }, [])
 
   return (
     <header style={{ position: 'sticky', top: 0, zIndex: 50, background: 'var(--color-creme)', borderBottom: '1px solid var(--color-creme-bord)' }}>
@@ -29,8 +35,8 @@ export default function Navbar() {
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
           <Link href="/publier" style={{ background: 'var(--color-terracotta)', color: '#fff', padding: '8px 16px', borderRadius: '8px', fontSize: '13px', fontWeight: 500, textDecoration: 'none', whiteSpace: 'nowrap' }}
             className="hidden-mobile">+ Publier</Link>
-          <Link href="/auth/login" style={{ background: 'var(--color-vert)', color: '#fff', padding: '8px 16px', borderRadius: '8px', fontSize: '13px', fontWeight: 500, textDecoration: 'none', whiteSpace: 'nowrap' }}
-            className="hidden-mobile">Connexion</Link>
+          <Link href={user ? "/dashboard" : "/auth/login"} style={{ background: 'var(--color-vert)', color: '#fff', padding: '8px 16px', borderRadius: '8px', fontSize: '13px', fontWeight: 500, textDecoration: 'none', whiteSpace: 'nowrap' }}
+            className="hidden-mobile">{user ? "Mon espace" : "Connexion"}</Link>
           <button onClick={() => setOpen(!open)} className="show-mobile"
             style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px', display: 'none' }}>
             {open ? <X size={24} color="var(--color-marron)" /> : <Menu size={24} color="var(--color-marron)" />}
@@ -47,7 +53,7 @@ export default function Navbar() {
           ))}
           <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
             <Link href="/publier" onClick={() => setOpen(false)} style={{ flex: 1, textAlign: 'center', background: 'var(--color-terracotta)', color: '#fff', padding: '10px', borderRadius: '8px', fontSize: '14px', fontWeight: 500, textDecoration: 'none' }}>+ Publier</Link>
-            <Link href="/auth/login" onClick={() => setOpen(false)} style={{ flex: 1, textAlign: 'center', background: 'var(--color-vert)', color: '#fff', padding: '10px', borderRadius: '8px', fontSize: '14px', fontWeight: 500, textDecoration: 'none' }}>Connexion</Link>
+            <Link href={user ? "/dashboard" : "/auth/login"} onClick={() => setOpen(false)} style={{ flex: 1, textAlign: 'center', background: 'var(--color-vert)', color: '#fff', padding: '10px', borderRadius: '8px', fontSize: '14px', fontWeight: 500, textDecoration: 'none' }}>{user ? "Mon espace" : "Connexion"}</Link>
           </div>
         </div>
       )}
