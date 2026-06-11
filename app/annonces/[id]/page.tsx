@@ -35,6 +35,8 @@ export default function DetailAnnonce() {
             } else {
                 setAnnonce(data)
             }
+            // Incrémenter les vues
+            supabase.from('annonces').update({ vues: (data.vues || 0) + 1 }).eq('id', id).then(() => { })
             setLoading(false)
         }
         if (id) fetchAnnonce()
