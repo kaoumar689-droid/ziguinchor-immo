@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { MapPin } from 'lucide-react'
-import PropertyCard from '@/components/PropertyCard'
+import PropertyGrid from '@/components/PropertyGrid'
 import QuartiersGrid from '@/components/QuartiersGrid'
 import { supabase } from '@/lib/supabase'
 export const dynamic = 'force-dynamic'
@@ -89,9 +89,7 @@ export default async function HomePage() {
           <Link href="/annonces" style={{ fontSize: '13px', color: 'var(--color-vert)', fontWeight: 500, textDecoration: 'none' }}>Voir tout →</Link>
         </div>
         {properties.length > 0 ? (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
-            {properties.map((p: any) => <PropertyCard key={p.id} property={p} />)}
-          </div>
+          <PropertyGrid properties={properties} />
         ) : (
           <div style={{ textAlign: 'center', padding: '60px 0', color: 'var(--color-marron-muted)' }}>
             <p style={{ fontWeight: 500, marginBottom: '8px' }}>Aucune annonce pour le moment</p>

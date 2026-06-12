@@ -1,6 +1,8 @@
+'use client'
 import Image from 'next/image'
 import Link from 'next/link'
-import { MapPin, BedDouble, Wifi, Zap, Droplets, Car, Bath } from 'lucide-react'
+import { MapPin, Heart } from 'lucide-react'
+import { useFavoris } from '@/lib/useFavoris'
 
 export type Property = {
   id: string
@@ -27,6 +29,8 @@ const TYPE_COLORS: Record<string, string> = {
 }
 
 export default function PropertyCard({ property }: { property: Property }) {
+  const { toggleFavori, isFavori } = useFavoris()
+  const favori = isFavori(property.id)
   const imageUrl = property.images?.[0] ?? null
   const waLink = property.telephone
     ? `https://wa.me/221${property.telephone.replace(/\D/g, '')}?text=${encodeURIComponent(`Bonjour, je suis intéressé(e) par "${property.titre}" à ${property.quartier}`)}`
@@ -46,6 +50,12 @@ export default function PropertyCard({ property }: { property: Property }) {
         <span style={{ position: 'absolute', top: '10px', left: '10px', background: TYPE_COLORS[typeKey] ?? 'var(--color-vert)', color: '#fff', fontSize: '11px', fontWeight: 500, padding: '3px 10px', borderRadius: '6px' }}>
           {TYPE_LABELS[typeKey] ?? property.type}
         </span>
+        <button
+          onClick={() => toggleFavori(property.id)}
+          style={{ position: 'absolute', top: '10px', right: '10px', background: '#fff', border: 'none', borderRadius: '50%', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 1px 4px rgba(0,0,0,0.15)' }}
+        >
+          <Heart size={16} fill={favori ? '#e53e3e' : 'none'} color={favori ? '#e53e3e' : 'var(--color-marron-muted)'} />
+        </button>
       </div>
 
       <div style={{ padding: '14px', display: 'flex', flexDirection: 'column', gap: '6px', flex: 1 }}>
