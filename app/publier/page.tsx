@@ -97,7 +97,7 @@ export default function PublierPage() {
   }
 
   async function handleSubmit() {
-    if (!form.titre || !form.prix || !form.type_logement || !form.Quartier || !form.telephone) {
+    if (!form.titre || !form.prix || !form.type_logement || !form.quartier || !form.telephone) {
       setError('Veuillez remplir tous les champs obligatoires')
       return
     }
@@ -288,7 +288,7 @@ export default function PublierPage() {
               </div>
               <div>
                 <label style={labelStyle}>Quartier *</label>
-                <select name="Quartier" value={form.Quartier} onChange={handleChange} style={inputStyle}>
+                <select name="quartier" value={form.quartier} onChange={handleChange} style={inputStyle}>
                   <option value="">Choisir...</option>
                   {QUARTIERS.map(q => <option key={q} value={q}>{q}</option>)}
                 </select>
@@ -317,7 +317,7 @@ export default function PublierPage() {
               <div>
                 <label style={labelStyle}>Nb. chambres</label>
                 <select name="chambres" value={form.chambres} onChange={handleChange} style={inputStyle}>
-                  {['1','2','3','4','5+'].map(n => <option key={n} value={n}>{n}</option>)}
+                  {['1', '2', '3', '4', '5+'].map(n => <option key={n} value={n}>{n}</option>)}
                 </select>
               </div>
             </div>
